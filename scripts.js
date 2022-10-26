@@ -4,7 +4,7 @@ const resultsContainer = document.querySelector(".js-results");
 const searchInput = document.querySelector(".js-input");
 
 const githubEndpoint = "https://api.github.com/users/";
-const jsonPlaceholderEndpoint = "https://jsonplaceholder.typicode.com/posts";
+const jsonPlaceholderEndpoint = "https://jsonplaceholder.typicode.com/posts/";
 
 loadBtn.addEventListener("click", function (evt) {
   evt.preventDefault();
@@ -26,5 +26,30 @@ loadBtn.addEventListener("click", function (evt) {
   dataHandler();
 });
 
-// placeholderBtn.addEventListener("click", function (evt) {
-//   evt.preventDefault()}
+placeholderBtn.addEventListener("click", function (evt) {
+  evt.preventDefault();
+  async function getJsonPlaceholderData() {
+    try {
+      const { data } = await axios.get(jsonPlaceholderEndpoint, {
+        params: {
+          _start: 0,
+          _limit: 10,
+        },
+      });
+      data.forEach((item) => {
+        const newElem = document.createElement("div");
+        newElem.innerHTML = `<div class="response-container">
+   <p> User ID: <span>${item.userId}</span><p>
+   <p> ID: <span>${item.id}</span><p>
+   <p> Title: <span>${item.title}</span><p>
+   <p> Body: <span>${item.body}</span><p>
+</div>`;
+        resultsContainer.append(newElem);
+      });
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  getJsonPlaceholderData();
+});
