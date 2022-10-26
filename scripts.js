@@ -4,7 +4,7 @@ const resultsContainer = document.querySelector(".js-results");
 const searchInput = document.querySelector(".js-input");
 
 const githubEndpoint = "https://api.github.com/users/";
-const jsonPlaceholderEndpoint = "https://jsonplaceholder.typicode.com/posts/";
+const jsonPlaceholderEndpoint = "https://jsonplaceholder.typicode.com/users/";
 
 loadBtn.addEventListener("click", function (evt) {
   evt.preventDefault();
@@ -33,16 +33,19 @@ placeholderBtn.addEventListener("click", function (evt) {
       const { data } = await axios.get(jsonPlaceholderEndpoint, {
         params: {
           _start: 0,
-          _limit: 10,
+          _limit: 5,
         },
       });
       data.forEach((item) => {
         const newElem = document.createElement("div");
         newElem.innerHTML = `<div class="response-container">
-   <p> User ID: <span>${item.userId}</span><p>
-   <p> ID: <span>${item.id}</span><p>
-   <p> Title: <span>${item.title}</span><p>
-   <p> Body: <span>${item.body}</span><p>
+   <p> Имя: <span>${item.name}</span><p>
+   <p> Никнейм: <span>${item.username}</span><p>
+   <p> Электронная почта: <span>${item.email}</span><p>
+   <p> Адрес: <span>${item.address.street} str, ${item.address.suite}, ${item.address.zipcode} city of ${item.address.city}</span><p>
+   <p> Номер телефона: <span>${item.phone}</span><p>
+   <p> Сайт: <span>${item.website}</span><p>
+   <p> Работает в компании: <span>${item.company.name}</span><p>
 </div>`;
         resultsContainer.append(newElem);
       });
